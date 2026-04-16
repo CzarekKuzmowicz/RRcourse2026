@@ -59,3 +59,51 @@ The list below summarizes the viewership (in millions) across the broadcast hist
 * **Highest Viewership:** `r max_viewers` million (Season `r peak_season`)
 * **Lowest Viewership:** `r min_viewers` million (Most recent season)
 * **Average Viewership:** `r avg_viewers` million
+
+
+---
+
+## 3. Viewership Over Time
+
+```{r}
+#| label: plot-over-time
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+
+ggplot(m_jak_milosc_data, aes(x = Season, y = Viewers_Millions)) +
+  geom_line(color = "#2c3e50", linewidth = 1.2) +
+  geom_point(color = "#e74c3c", size = 3) +
+  theme_minimal() +
+  labs(
+    title = "Viewership of M jak miłość Over Time",
+    subtitle = "From Series Premiere to Recent Seasons",
+    x = "Season Number",
+    y = "Average Viewers (Millions)"
+  ) +
+  scale_x_continuous(breaks = seq(1, 24, by = 2))
+```
+
+---
+
+## 4. Season-to-Season Changes
+
+```{r}
+#| label: plot-changes
+#| echo: false
+#| fig-width: 8
+#| fig-height: 5
+
+ggplot(filter(m_jak_milosc_data, !is.na(Change_From_Previous)), 
+       aes(x = factor(Season), y = Change_From_Previous, fill = Change_Type)) +
+  geom_col() +
+  scale_fill_manual(values = c("Increase" = "#27ae60", "Decrease" = "#e74c3c")) +
+  theme_minimal() +
+  labs(
+    title = "Season-to-Season Viewership Changes",
+    x = "Season",
+    y = "Change in Viewers (Millions)",
+    fill = "Trend"
+  ) +
+  theme(legend.position = "top")
+```
